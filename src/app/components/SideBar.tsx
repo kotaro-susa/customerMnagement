@@ -27,9 +27,15 @@ const SideBar = () => {
         </button>
         <button
           className="font-bold m-2 p-2 bg-indigo-800 text-white rounded-3xl block text-[14px]"
-          onClick={() => router.push("/user")}
+          onClick={() => router.push(`/files`)}
         >
-          契約一覧(※)
+          ファイル一覧(※)
+        </button>
+        <button
+          className="font-bold m-2 p-2 bg-indigo-800 text-white rounded-3xl block text-[14px]"
+          onClick={() => router.push(`/CaseList`)}
+        >
+          案件一覧
         </button>
       </aside>
     </div>

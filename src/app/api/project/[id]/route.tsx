@@ -1,10 +1,11 @@
+// IDを受け取り、Caseの情報を取得
+
 import { connectMongoDB } from "@/app/lib/mongodb";
-import Account from "@/models/account";
 import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/route";
 
-// 一覧の取得
+
 export async function GET(
   req: NextRequest,
   { params }: { params: { value: number } }
@@ -41,28 +42,5 @@ export async function GET(
       { message: "エラーが発生しました" },
       { status: 500 }
     );
-  }
-}
-
-// PUTする
-
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { value: string } }
-) {
-  try {
-    const { newValue, type } = await req.json();
-    const userId = params.value;
-    await connectMongoDB();
-
-    const updateFields: Record<string, any> = {};
-    updateFields[type] = newValue;
-    const updatedAccount = await Account.updateOne(
-      { _id: userId },
-      { $set: updateFields }
-    );
-    return NextResponse.json({ message: "更新完了" }, { status: 201 });
-  } catch (error) {
-    return NextResponse.json({ message: error }, { status: 500 });
   }
 }

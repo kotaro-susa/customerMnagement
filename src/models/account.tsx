@@ -5,12 +5,12 @@ const accountSchema = new mongoose.Schema(
   {
     companyId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Company",
+      ref: Company,
       required: true,
     },
     name: { type: String, required: true },
     phoneNumber: { type: String, required: true },
-    email:{type: String, required: true},
+    email: { type: String, required: true },
     tenantId: { type: String, required: true },
     userId: { type: String, required: true },
   },

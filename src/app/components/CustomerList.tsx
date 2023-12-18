@@ -1,6 +1,8 @@
-import _ from "lodash";
-import React, { useEffect, useState } from "react";
+// import _ from "lodash";
+import React, { createContext, useEffect, useState } from "react";
 import EditableCell from "./EditableCell";
+import MenuModal from "./MenuModal";
+import { useRouter } from "next/navigation";
 
 export type AllUsers = {
   _id: string;
@@ -30,6 +32,17 @@ export type AllUsers = {
     _id: string;
   };
 };
+export type ValueContextType = {
+  setMenuModal: (value: boolean) => void;
+  selectAccountId: string | null;
+  setSelectAccountId: (value: string) => void;
+  selectAccountCompany: string | null;
+  setSelectAccountCompany: (value: string) => void;
+  selectAccountName: string | null;
+  setSelectAccountName: (value: string) => void;
+};
+
+export const ValueContext = createContext<ValueContextType | null>(null);
 
 const CustomerList = () => {
   const [allUsers, setAllUsers] = useState<AllUsers[] | null>(null);
@@ -38,6 +51,16 @@ const CustomerList = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(true);
   const [maxPageCount, setMaxPageCount] = useState<number>(1);
+  const [menuModal, setMenuModal] = useState<boolean>(false);
+  const [selectAccountId, setSelectAccountId] = useState<string | null>(null);
+  const [selectAccountCompany, setSelectAccountCompany] = useState<
+    string | null
+  >(null);
+  const [selectAccountName, setSelectAccountName] = useState<string | null>(
+    null
+  );
+
+  const router = useRouter();
 
   useEffect(() => {
     const newController = new AbortController();
@@ -150,6 +173,17 @@ const CustomerList = () => {
     }
   };
 
+  const handleOpenMenu = (user: AllUsers) => {
+    setMenuModal((pre) => !pre);
+    setSelectAccountId(user._id);
+    setSelectAccountCompany(user.companyId.name);
+    setSelectAccountName(user.name);
+  };
+
+  const handleAccountDetails = (id: string) => {
+    router.push(`dashboard/${id}`);
+  };
+
   return (
     <div className="bg-gray-100 min-h-screen p-4">
       {/* Search Input */}
@@ -194,6 +228,7 @@ const CustomerList = () => {
                 <th className="py-2 px-4 border-b">会社住所</th>
                 <th className="py-2 px-4 border-b">担当者携帯</th>
                 <th className="py-2 px-4 border-b">メールアドレス</th>
+                <th className="py-2 px-4 border-b">メニュー</th>
                 <th className="py-2 px-4 border-b">詳細</th>
               </tr>
             </thead>
@@ -235,7 +270,18 @@ const CustomerList = () => {
                       />
                     </td>
                     <td>
-                      <button className="bg-gray-600 text-white hover:bg-gray-700 p-2 font-bold rounded-md my-2">
+                      <button
+                        className="bg-gray-600 text-white hover:bg-gray-700 p-2 font-bold rounded-md my-2"
+                        onClick={() => handleOpenMenu(user)}
+                      >
+                        メニュー
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        className="bg-gray-600 text-white hover:bg-gray-700 p-2 font-bold rounded-md my-2"
+                        onClick={() => handleAccountDetails(user._id)}
+                      >
                         詳細を確認
                       </button>
                     </td>
@@ -244,12 +290,27 @@ const CustomerList = () => {
               })}
             </tbody>
           </table>
+          {menuModal ? (
+            <ValueContext.Provider
+              value={{
+                setMenuModal,
+                selectAccountId,
+                setSelectAccountId,
+                selectAccountCompany,
+                setSelectAccountCompany,
+                selectAccountName,
+                setSelectAccountName,
+              }}
+            >
+              <MenuModal />
+            </ValueContext.Provider>
+          ) : null}
         </div>
       ) : (
         <div className="flex items-center justify-center h-screen">
-          <div className="h-4 w-4 bg-blue-500 rounded-full animate-spin mx-2"></div>
-          <div className="h-4 w-4 bg-blue-500 rounded-full animate-spin delay-100 mx-2"></div>
-          <div className="h-4 w-4 bg-blue-500 rounded-full animate-spin delay-200 mx-2"></div>
+          <div className="h-4 w-4 bg-blue-500 rounded-full animate-bounce mx-2"></div>
+          <div className="h-4 w-4 bg-blue-500 rounded-full animate-bounce mx-2"></div>
+          <div className="h-4 w-4 bg-blue-500 rounded-full animate-bounce mx-2"></div>
         </div>
       )}
 

@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { ReactEventHandler, useReducer, useState } from "react";
+import React, { useState } from "react";
 // Emailのバリデーションチェック用
 const validateEmail = (email: string): boolean => {
   const gmailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

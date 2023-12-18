@@ -6,10 +6,12 @@ import Modal from "./Modal";
 import CustomerList from "./CustomerList";
 import CompanyModal from "./CompanyModal";
 import SideBar from "./SideBar";
+import ContractModal from "./ContractModal";
 
 export default function DashBoard() {
   const [modalState, setModalState] = useState(false);
   const [companyModalState, setCompanyModalState] = useState(false);
+  const [contractModalState, setContractModalState] = useState(false);
 
   return (
     <main className="flex h-full">
@@ -39,7 +41,6 @@ export default function DashBoard() {
         {companyModalState ? (
           <CompanyModal setCompanyModalState={setCompanyModalState} />
         ) : null}
-
         {/* Customer List */}
         <CustomerList />
       </div>
