@@ -2,21 +2,22 @@
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
+
 const Header = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
   return (
-    <div className="bg-gray-300 p-4">
+    <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-4">
       <div className="flex justify-between items-center container mx-auto">
         <div
-          className="text-3xl font-bold text-gray-800 cursor-pointer hover:text-blue-500"
+          className="text-3xl font-bold text-white cursor-pointer hover:text-yellow-300"
           onClick={() => router.push("/")}
         >
           {session?.user?.company}
         </div>
         <div className="flex items-center">
-          <div className="text-gray-800 font-bold text-lg mr-4">
+          <div className="text-white font-bold text-lg mr-4">
             ユーザー名: {session?.user?.name}
           </div>
           <button

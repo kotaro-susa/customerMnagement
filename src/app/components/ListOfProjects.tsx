@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DealModal from "./DealModal";
+import { useRouter } from "next/navigation";
 
 type allCaseType = {
   AskingPrice: string;
@@ -21,15 +22,11 @@ type allCaseType = {
   _id: string;
 };
 
-export const handlePageTransition = (id: string) => {
-  console.log(id);
-  return id;
-};
-
 const ListOfProjects = () => {
   const [allCase, setAllCase] = useState<allCaseType[] | null>(null);
   const [dealModalState, setDealModalState] = useState(false);
-  const [caseId, setCaseId] = useState<string | null>(null);
+  const [caseId, setCaseId] = useState<string>("");
+  const router = useRouter();
   useEffect(() => {
     const ProjectList = async () => {
       try {
@@ -46,6 +43,10 @@ const ListOfProjects = () => {
     };
     ProjectList();
   }, []);
+
+  const handlePageTransition = (id: string) => {
+    router.push(`./CaseList/${id}`);
+  };
 
   const createDeal = (id: string) => {
     setCaseId(id);
@@ -106,17 +107,56 @@ const ListOfProjects = () => {
                   <tr
                     className="text-center hover:bg-blue-300 cursor-pointer"
                     key={project._id}
-                    onClick={() => {
-                      handlePageTransition(project._id);
-                    }}
                   >
-                    <td>{formatDate(project.createdAt)}</td>
-                    <td>{convertedMap}</td>
-                    <td>{project.ProjectName}</td>
-                    <td>{pic}</td>
-                    <td>{project.AskingPrice}円</td>
-                    <td>{convertedStatus}</td>
-                    <td>{formatDate(project.CloseDate)}</td>
+                    <td
+                      onClick={() => {
+                        handlePageTransition(project._id);
+                      }}
+                    >
+                      {formatDate(project.createdAt)}
+                    </td>
+                    <td
+                      onClick={() => {
+                        handlePageTransition(project._id);
+                      }}
+                    >
+                      {convertedMap}
+                    </td>
+                    <td
+                      onClick={() => {
+                        handlePageTransition(project._id);
+                      }}
+                    >
+                      {project.ProjectName}
+                    </td>
+                    <td
+                      onClick={() => {
+                        handlePageTransition(project._id);
+                      }}
+                    >
+                      {pic}
+                    </td>
+                    <td
+                      onClick={() => {
+                        handlePageTransition(project._id);
+                      }}
+                    >
+                      {project.AskingPrice}円
+                    </td>
+                    <td
+                      onClick={() => {
+                        handlePageTransition(project._id);
+                      }}
+                    >
+                      {convertedStatus}
+                    </td>
+                    <td
+                      onClick={() => {
+                        handlePageTransition(project._id);
+                      }}
+                    >
+                      {formatDate(project.CloseDate)}
+                    </td>
                     <td>
                       <button
                         className="font-bold p-2 bg-indigo-800 text-white rounded-3xl my-2 cursor-pointer"
